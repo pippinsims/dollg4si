@@ -10,7 +10,7 @@ public class PlayerControl : MonoBehaviour
     Animator anim;
     SpriteRenderer rend;
 
-    bool climb;
+    public bool climb;
     bool jump;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
