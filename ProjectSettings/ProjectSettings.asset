@@ -681,11 +681,11 @@ PlayerSettings:
   activeInputHandler: 1
   windowsGamepadBackendHint: 0
   enableDirectStorage: 0
-  cloudProjectId: daffa5df-227c-4058-bbca-d692ef65771d
+  cloudProjectId: 8814f88a-a675-4361-9d0e-5f8a030bc91a
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: doll
-  organizationId: pipco
+  projectName: DollGame
+  organizationId: beebo53372
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
