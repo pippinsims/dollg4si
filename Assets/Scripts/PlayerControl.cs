@@ -8,34 +8,74 @@ public class PlayerControl : MonoBehaviour
     public float jumpForce;
     Rigidbody2D rb;
     Animator anim;
-    SpriteRenderer rend;
+    public Camera mainCam;
 
     public bool climb;
     bool jump;
+    bool stunned;
+
+    GameObject head;
+    SpriteRenderer headrend;
+    SpriteRenderer rend;
+
+    public Sprite ur,um,mr,mm,dr,dm;
+    private Animator animator;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        var x = transform.GetChild(0).gameObject;
+        rend = x.GetComponent<SpriteRenderer>();
+        head = x.transform.GetChild(0).gameObject;
+        headrend = head.GetComponent<SpriteRenderer>();
+        mainCam = GameObject.Find("Main Camera").GetComponent<Camera>();
+        animator = transform.GetChild(0).GetComponent<Animator>();
     }
 
     private void Update()
     {
-        if (Keyboard.current.spaceKey.wasPressedThisFrame && jump)
+        if (Keyboard.current.spaceKey.wasPressedThisFrame && jump && !stunned)
         {
             rb.AddForce(Vector2.up * jumpForce);
             jump = false;
         }
+
+        var curMouse = mainCam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+        float thresh = 1f;
+        bool u = curMouse.y > transform.position.y + thresh;
+        bool mv = curMouse.y >= transform.position.y - thresh && curMouse.y <= transform.position.y + thresh;
+
+        if(curMouse.x >= transform.position.x - thresh && curMouse.x <= transform.position.x + thresh)
+        {
+            if(u) headrend.sprite = um;
+            else if(mv) headrend.sprite = mm;
+            else headrend.sprite = dm;
+        }
+        else
+        {
+            headrend.flipX = curMouse.x <= transform.position.x + thresh;
+            if(u) headrend.sprite = ur;
+            else if(mv) headrend.sprite = mr;
+            else headrend.sprite = dr;
+        }
+
+        animator.SetBool("isWalking", MathF.Abs(rb.linearVelocity.x) + 1f > speed);
+        if(rb.linearVelocity.x != 0) rend.flipX = rb.linearVelocity.x < 0;
+        animator.SetBool("isFalling", rb.linearVelocity.y < -1.5f);
+        animator.SetBool("isClimbing", climb);
+        animator.speed = climb && (Keyboard.current.wKey.isPressed || Keyboard.current.sKey.isPressed) || !climb ? 1f : 0f;
+        stunned = animator.GetCurrentAnimatorStateInfo(0).IsName("GetUp");
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (Keyboard.current.dKey.isPressed)
+        if (Keyboard.current.dKey.isPressed && !stunned)
         {
             rb.linearVelocity = new Vector2(speed, rb.linearVelocity.y);
         }
-        else if (Keyboard.current.aKey.isPressed)
+        else if (Keyboard.current.aKey.isPressed && !stunned)
         {
             rb.linearVelocity = new Vector2(-speed, rb.linearVelocity.y);
         }

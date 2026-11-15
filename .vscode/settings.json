@@ -67,6 +67,6 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "DollGame.slnx",
+    "dotnet.defaultSolution": "doll.sln",
     "dotnet.enableWorkspaceBasedDevelopment": false
 }
