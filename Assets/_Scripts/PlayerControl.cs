@@ -2,6 +2,7 @@ using System;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 public class PlayerControl : MonoBehaviour
 {
     public float speed;
@@ -9,9 +10,9 @@ public class PlayerControl : MonoBehaviour
     Rigidbody2D rb;
     Animator anim;
     SpriteRenderer rend;
-
     bool climb;
     bool jump;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -55,12 +56,11 @@ public class PlayerControl : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D c)
     {
-        if (c.collider.CompareTag("Ground"))
+        if (c.collider.CompareTag("Ground") || c.collider.CompareTag("Boulder"))
         {
             jump = true;
         }
     }
-
 
     private void OnTriggerStay2D(Collider2D c)
     {
