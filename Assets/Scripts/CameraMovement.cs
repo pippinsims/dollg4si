@@ -2,6 +2,7 @@ using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 
 public class CameraMovement : MonoBehaviour
 {
@@ -27,7 +28,7 @@ public class CameraMovement : MonoBehaviour
     {
         print(playerPosition.position.x+" "+playerPosition.position.y+" "+playerPosition.position.z);
         if(!isFrozen){
-            targetPosition  = new Vector3(playerPosition.position.x, playerPosition.position.y+3, transform.position.z); 
+            targetPosition  = new Vector3(playerPosition.position.x, playerPosition.position.y+(SceneManager.GetActiveScene().name == "LivingRoomLevel" ? 3 : 0), transform.position.z); 
             transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref currentVelocity, cameraSpeed);
         }
     }

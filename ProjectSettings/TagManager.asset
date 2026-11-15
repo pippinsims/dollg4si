@@ -12,6 +12,7 @@ TagManager:
   - Box
   - Boulder
   - Door
+  - WIN
   layers:
   - Default
   - TransparentFX

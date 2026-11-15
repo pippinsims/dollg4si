@@ -145,6 +145,8 @@ public class PlayerControl : MonoBehaviour
             canGrab= true;
             nearestRope = c.attachedRigidbody;
         }
+        if (c.CompareTag("WIN"))
+            SceneManager.LoadScene("Win");
     }
     private void OnTriggerStay2D(Collider2D c)
     {
