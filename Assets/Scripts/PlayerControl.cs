@@ -44,8 +44,6 @@ public class PlayerControl : MonoBehaviour
     private void Update()
     {
         if (Keyboard.current.spaceKey.wasPressedThisFrame && jump && !stunned)
-        
-        if (Keyboard.current.spaceKey.wasPressedThisFrame && jump)
         {
             rb.AddForce(Vector2.up * jumpForce);
             jump = false;
