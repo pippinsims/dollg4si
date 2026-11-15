@@ -10,7 +10,12 @@ public class PlayerControl : MonoBehaviour
     Rigidbody2D rb;
     Animator anim;
     SpriteRenderer rend;
+<<<<<<< HEAD:Assets/_Scripts/PlayerControl.cs
     bool climb;
+=======
+
+    public bool climb;
+>>>>>>> f68fdc1ec05d82c467a40d9da0e20457f9c21eee:Assets/Scripts/PlayerControl.cs
     bool jump;
 
 
