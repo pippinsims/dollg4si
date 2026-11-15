@@ -6,12 +6,15 @@ using UnityEngine.SceneManagement;
 public class Rolling : MonoBehaviour
 {
     private float speed;
+    private PlayerControl playerControl;
     Rigidbody2D rb;
+    private bool isDead = false;
     SpriteRenderer rend;
     Transform player;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        playerControl = GameObject.Find("Player").GetComponent<PlayerControl>();
         player = GameObject.Find("Player").transform;
         rb = GetComponent<Rigidbody2D>();
         speed = Random.Range(3, 7);
@@ -26,9 +29,10 @@ public class Rolling : MonoBehaviour
     private void OnCollisionStay2D(Collision2D c)
     {
         if (c.collider.CompareTag("Player")){
-            if(rb.position.y > player.position.y)
+            if(rb.position.y > player.position.y && !isDead)
             {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                StartCoroutine(playerControl.KillPlayer());
+                isDead = true;
             }
         }
     }

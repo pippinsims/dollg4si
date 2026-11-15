@@ -8,7 +8,7 @@ public class PitController : MonoBehaviour
     private PlayerControl playerControl;
     void Start()
     {
-        playerControl = GameObject.Find("Pit").GetComponent<PlayerControl>();
+        playerControl = GameObject.Find("Player").GetComponent<PlayerControl>();
 
     }
     void OnTriggerEnter2D(Collider2D collision)

@@ -178,12 +178,10 @@ public class PlayerControl : MonoBehaviour
 
     private async Task FadeOut()
     {
-        print("print");
         await FadeController.fadeControllerInstance.FadeToBlack();
     }
     private async Task FadeIn()
     {
-        print("print");
         await FadeController.fadeControllerInstance.FadeIn();
     }
 

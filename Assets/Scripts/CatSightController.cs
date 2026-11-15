@@ -11,10 +11,13 @@ public class CatSightController : MonoBehaviour
     private bool isPlayerInSight;
     private bool isDead = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private Animator catAnimator;
     void Start()
     {
         isPlayerInSight = false;
         playerControl = GameObject.Find("Player").GetComponent<PlayerControl>();
+        catAnimator = GameObject.Find("Cat").GetComponent<Animator>();
+
     }
 
     // Update is called once per frame
@@ -28,6 +31,7 @@ public class CatSightController : MonoBehaviour
         {
             print("Player attacked"); 
             if(!isDead) {
+                catAnimator.SetBool("IsAttacking", true);
                 StartCoroutine(playerControl.KillPlayer());
                 isDead = true;
             }
