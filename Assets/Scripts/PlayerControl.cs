@@ -54,9 +54,9 @@ public class PlayerControl : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
         }
-        if(Keyboard.current.spaceKey.isPressed && canGrab)
+        if(Keyboard.current.eKey.isPressed && canGrab)
         {
-            grabbed=true;
+            grabbed = !grabbed;
         }
     }
 
@@ -97,4 +97,8 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+    public static explicit operator PlayerControl(GameObject v)
+    {
+        throw new NotImplementedException();
+    }
 }

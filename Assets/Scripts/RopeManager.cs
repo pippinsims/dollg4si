@@ -11,7 +11,7 @@ public class RopeManager : MonoBehaviour
 {
 
     [SerializeField] public Transform block;
-    [SerializeField] public Transform player;
+    public Transform player;
 
     
     private GameObject temp;
@@ -25,7 +25,7 @@ public class RopeManager : MonoBehaviour
     public DistanceJoint2D dt;
 
     public PlayerControl playerControl;
-
+    public bool grabbed;
     LineRenderer line; 
 
     Vector2 GetSegPos(int segmentIndex)
@@ -47,8 +47,11 @@ public class RopeManager : MonoBehaviour
         tempTransform.position = new Vector3(5, 0, 0);
         tempTransform.rotation = Quaternion.identity;
 
-       
-              
+        player= GameObject.Find("Player").GetComponent<Transform>();
+        playerControl = GameObject.Find("Player").GetComponent<PlayerControl>();
+        
+
+        
 
         for (int i = 0; i < segmentCount; i++)
         {
@@ -89,13 +92,18 @@ public class RopeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
         // segments[0].GetComponent<Rigidbody2D>().linearVelocity = new Vector2(-1, 2);
         // segments[segmentCount-1].GetComponent<Rigidbody2D>().linearVelocity = new Vector2(1, 2);
         segments[0].position = block.position;
-        if (playerControl.grabbed)
+        grabbed = playerControl.grabbed;
+        if (grabbed)
         {
             segments[segmentCount-1].position = player.position;
+        }
+        else
+        {
+            
         }
         
 
@@ -122,4 +130,5 @@ public class RopeManager : MonoBehaviour
     }
 
 
+    
 }
