@@ -137,7 +137,6 @@ public class PlayerControl : MonoBehaviour
             SceneManager.LoadScene("Backyard");
     }
 
-
     private void OnTriggerEnter2D(Collider2D c)
     {
         if (c.CompareTag("BoxRope"))
@@ -147,6 +146,9 @@ public class PlayerControl : MonoBehaviour
         }
         if (c.CompareTag("WIN"))
             SceneManager.LoadScene("Win");
+
+        if (c.CompareTag("Scene2Door"))
+            SceneManager.LoadScene("Kitchen_SoupCan");
     }
     private void OnTriggerStay2D(Collider2D c)
     {
@@ -158,6 +160,7 @@ public class PlayerControl : MonoBehaviour
         }
         
     }
+    
     void OnTriggerExit2D(Collider2D c)
     {
         if (c.CompareTag("Rope"))
