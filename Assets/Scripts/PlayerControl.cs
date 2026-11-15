@@ -2,6 +2,7 @@ using System;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 public class PlayerControl : MonoBehaviour
 {
     public float speed;
@@ -9,8 +10,11 @@ public class PlayerControl : MonoBehaviour
     Rigidbody2D rb;
     Animator anim;
     public Camera mainCam;
+<<<<<<< HEAD:Assets/_Scripts/PlayerControl.cs
+=======
 
     public bool climb;
+>>>>>>> f68fdc1ec05d82c467a40d9da0e20457f9c21eee:Assets/Scripts/PlayerControl.cs
     bool jump;
     bool stunned;
 
@@ -95,12 +99,11 @@ public class PlayerControl : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D c)
     {
-        if (c.collider.CompareTag("Ground"))
+        if (c.collider.CompareTag("Ground") || c.collider.CompareTag("Boulder"))
         {
             jump = true;
         }
     }
-
 
     private void OnTriggerStay2D(Collider2D c)
     {
