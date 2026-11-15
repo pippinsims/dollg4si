@@ -1,7 +1,10 @@
 using System;
+using System.Collections;
+using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 public class PlayerControl : MonoBehaviour
 {
     public float speed;
@@ -11,12 +14,13 @@ public class PlayerControl : MonoBehaviour
     SpriteRenderer rend;
 
     public bool climb;
+    public bool isBehindCover;
     bool jump;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();    
     }
 
     private void Update()
@@ -79,6 +83,24 @@ public class PlayerControl : MonoBehaviour
             rb.linearVelocity = new Vector2(0, 0);
             rb.gravityScale = 1f;
         }
+    }
+
+    public IEnumerator KillPlayer()
+    {
+        yield return FadeOut();
+        yield return new WaitForSeconds(FadeController.fadeControllerInstance.fadeTime);
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private async Task FadeOut()
+    {
+        print("print");
+        await FadeController.fadeControllerInstance.FadeToBlack();
+    }
+    private async Task FadeIn()
+    {
+        print("print");
+        await FadeController.fadeControllerInstance.FadeIn();
     }
 
 }

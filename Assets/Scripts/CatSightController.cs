@@ -1,39 +1,45 @@
 using System;
 using NUnit.Framework;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.TestTools;
 
 public class CatSightController : MonoBehaviour
 {   
-    [SerializeField] private CoverController coverController;
+    private CoverController coverController;
+    private PlayerControl playerControl;
     private bool isPlayerInSight;
+    private bool isDead = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         isPlayerInSight = false;
+        playerControl = GameObject.Find("Player").GetComponent<PlayerControl>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isPlayerInSight == true && coverController.IsPlayerBehindCover)
+        if (isPlayerInSight == true && playerControl.isBehindCover)
         {
             print("Player behind cover.");
         }
-        else if (isPlayerInSight == true && coverController.IsPlayerBehindCover == false)
+        else if (isPlayerInSight == true && playerControl.isBehindCover == false)
         {
-            print("Player attacked");
+            print("Player attacked"); 
+            if(!isDead) {
+                StartCoroutine(playerControl.KillPlayer());
+                isDead = true;
+            }
         }
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
-    {
+    void OnTriggerEnter2D(Collider2D collision){
         if(collision.CompareTag("Player"))
             isPlayerInSight = true;
     }
 
-    void OnTriggerExit2D(Collider2D collision)
-    {
+    void OnTriggerExit2D(Collider2D collision){
         if(collision.CompareTag("Player"))
             isPlayerInSight = false;
     }
