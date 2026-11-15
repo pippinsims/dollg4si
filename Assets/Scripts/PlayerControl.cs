@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -16,6 +18,7 @@ public class PlayerControl : MonoBehaviour
     Rigidbody2D nearestRope;
 
     public bool climb;
+    public bool isBehindCover;
     bool jump;
     bool stunned;
 
@@ -39,6 +42,7 @@ public class PlayerControl : MonoBehaviour
         mainCam = GameObject.Find("Main Camera").GetComponent<Camera>();
         animator = transform.GetChild(0).GetComponent<Animator>();
         fixedJ = GetComponent<FixedJoint2D>();
+        rb = GetComponent<Rigidbody2D>();    
     }
 
     private void Update()
@@ -166,4 +170,23 @@ public class PlayerControl : MonoBehaviour
     {
         throw new NotImplementedException();
     }
+    
+    public IEnumerator KillPlayer()
+    {
+        yield return FadeOut();
+        yield return new WaitForSeconds(FadeController.fadeControllerInstance.fadeTime);
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private async Task FadeOut()
+    {
+        print("print");
+        await FadeController.fadeControllerInstance.FadeToBlack();
+    }
+    private async Task FadeIn()
+    {
+        print("print");
+        await FadeController.fadeControllerInstance.FadeIn();
+    }
+
 }

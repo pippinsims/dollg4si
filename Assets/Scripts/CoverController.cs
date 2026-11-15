@@ -2,30 +2,24 @@ using UnityEngine;
 
 public class CoverController : MonoBehaviour
 {   
-    private bool isPlayerBehindCover;
-    public bool IsPlayerBehindCover => isPlayerBehindCover;
+    private PlayerControl playerControl;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
-    }
+        playerControl = GameObject.Find("Player").GetComponent<PlayerControl>();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
-
     void OnTriggerEnter2D(Collider2D collision)
     {
+        
         if(collision.CompareTag("Player"))
-            isPlayerBehindCover = true;
+            playerControl.isBehindCover = true;
     }
 
     void OnTriggerExit2D(Collider2D collision)
     {
         if(collision.CompareTag("Player"))
-            isPlayerBehindCover = false;
+            playerControl.isBehindCover = false;
     }
 }
 
