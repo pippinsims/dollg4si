@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.InteropServices;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -18,6 +19,7 @@ public class PlayerControl : MonoBehaviour
     public bool climb;
     bool jump;
     bool stunned;
+    public bool unstun;
 
     GameObject head;
     SpriteRenderer headrend;
@@ -74,6 +76,7 @@ public class PlayerControl : MonoBehaviour
         if(MathF.Abs(rb.linearVelocity.x) > 1f ) rend.flipX = rb.linearVelocity.x < 0;
         animator.SetBool("isFalling", rb.linearVelocity.y < -1.5f);
         animator.SetBool("isClimbing", climb);
+        animator.SetBool("unstun", unstun);
         animator.speed = climb && (Keyboard.current.wKey.isPressed || Keyboard.current.sKey.isPressed) || !climb ? 1f : 0f;
         stunned = animator.GetCurrentAnimatorStateInfo(0).IsName("GetUp");
         if(Keyboard.current.eKey.wasPressedThisFrame)
@@ -125,7 +128,11 @@ public class PlayerControl : MonoBehaviour
         if (c.collider.CompareTag("Ground") || c.collider.CompareTag("Boulder"))
         {
             jump = true;
+            unstun = c.collider.CompareTag("Boulder");
         }
+
+        if (c.collider.CompareTag("Door"))
+            SceneManager.LoadScene("Backyard");
     }
 
 

@@ -218,7 +218,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RopeManager
   block: {fileID: 1505371529495054751}
   player: {fileID: 0}
-  dt: {fileID: 0}
+  spring: {fileID: 0}
   playerControl: {fileID: 0}
   grabbed: 0
 --- !u!1 &8975410387331528910
