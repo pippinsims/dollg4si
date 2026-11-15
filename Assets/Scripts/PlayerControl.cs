@@ -9,6 +9,9 @@ public class PlayerControl : MonoBehaviour
     Rigidbody2D rb;
     Animator anim;
     SpriteRenderer rend;
+    FixedJoint2D fixedJ;
+
+    Rigidbody2D nearestRope;
 
     public bool climb;
     bool jump;
@@ -20,14 +23,32 @@ public class PlayerControl : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        fixedJ = GetComponent<FixedJoint2D>();
     }
 
     private void Update()
     {
+        
         if (Keyboard.current.spaceKey.wasPressedThisFrame && jump)
         {
             rb.AddForce(Vector2.up * jumpForce);
             jump = false;
+        }
+        if(Keyboard.current.eKey.wasPressedThisFrame)
+        {
+            if(grabbed)
+            {
+                grabbed = !grabbed;
+                fixedJ.enabled = false; 
+                fixedJ.connectedBody=null;     
+            }
+            else if(!grabbed && canGrab)
+            {
+                grabbed = !grabbed;
+                fixedJ.enabled=true;
+                fixedJ.connectedBody = nearestRope;
+            }
+
         }
     }
 
@@ -54,10 +75,7 @@ public class PlayerControl : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
         }
-        if(Keyboard.current.eKey.isPressed && canGrab)
-        {
-            grabbed = !grabbed;
-        }
+        
     }
 
     private void OnCollisionEnter2D(Collision2D c)
@@ -69,6 +87,14 @@ public class PlayerControl : MonoBehaviour
     }
 
 
+    private void OnTriggerEnter2D(Collider2D c)
+    {
+        if (c.CompareTag("BoxRope"))
+        {
+            canGrab= true;
+            nearestRope = c.attachedRigidbody;
+        }
+    }
     private void OnTriggerStay2D(Collider2D c)
     {
         if (c.CompareTag("Rope"))
@@ -77,10 +103,7 @@ public class PlayerControl : MonoBehaviour
             rb.gravityScale = 0f;
             rb.linearVelocity = new Vector2(0, 0);
         }
-        if (c.CompareTag("BoxRope"))
-        {
-            canGrab = true;   
-        }
+        
     }
     void OnTriggerExit2D(Collider2D c)
     {

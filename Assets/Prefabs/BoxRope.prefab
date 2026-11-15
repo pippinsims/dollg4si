@@ -218,7 +218,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RopeManager
   block: {fileID: 1505371529495054751}
   player: {fileID: 0}
-  dt: {fileID: 1293036459661826013}
+  dt: {fileID: 0}
+  playerControl: {fileID: 0}
+  grabbed: 0
 --- !u!1 &8975410387331528910
 GameObject:
   m_ObjectHideFlags: 0
@@ -229,7 +231,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1337689182907773678}
   - component: {fileID: 8328047021950338384}
-  - component: {fileID: 1293036459661826013}
   m_Layer: 0
   m_Name: RopeSegment
   m_TagString: BoxRope
@@ -279,23 +280,3 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!232 &1293036459661826013
-DistanceJoint2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8975410387331528910}
-  m_Enabled: 1
-  serializedVersion: 4
-  m_EnableCollision: 0
-  m_ConnectedRigidBody: {fileID: 0}
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_BreakAction: 3
-  m_AutoConfigureConnectedAnchor: 0
-  m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 0, y: 0}
-  m_AutoConfigureDistance: 0
-  m_Distance: 1
-  m_MaxDistanceOnly: 1

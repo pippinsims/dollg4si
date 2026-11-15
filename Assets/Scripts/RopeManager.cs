@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(LineRenderer))]
 
@@ -18,11 +19,11 @@ public class RopeManager : MonoBehaviour
     Transform tempTransform;
     CircleCollider2D circCollider;
     
-    
-    private int segmentCount = 4;
+    FixedJoint2D fixedJ; 
+    private int segmentCount = 10;
     private Transform[] segments;
     
-    public DistanceJoint2D dt;
+    public SpringJoint2D spring;
 
     public PlayerControl playerControl;
     public bool grabbed;
@@ -49,17 +50,17 @@ public class RopeManager : MonoBehaviour
 
         player= GameObject.Find("Player").GetComponent<Transform>();
         playerControl = GameObject.Find("Player").GetComponent<PlayerControl>();
+    
+        fixedJ = this.GetComponentInChildren<FixedJoint2D>();
         
-
         
 
         for (int i = 0; i < segmentCount; i++)
         {
-            var curJoint = Instantiate(dt, GetSegPos(i), Quaternion.identity, this.transform);
+            var curJoint = Instantiate(spring, GetSegPos(i), Quaternion.identity, this.transform);
             //curJoint.distance = 0.05;
 
-            curJoint.GetComponent<Rigidbody2D>().bodyType =
-            i == 0  ? RigidbodyType2D.Kinematic : RigidbodyType2D.Dynamic;// || 
+            //curJoint.GetComponent<Rigidbody2D>().bodyType =  i == 0  ? RigidbodyType2D.Kinematic : RigidbodyType2D.Dynamic; 
             segments[i] = curJoint.transform;
 
             //if(i == segmentCount - 1 && false)
@@ -71,14 +72,14 @@ public class RopeManager : MonoBehaviour
             }
             else
             {
-                
+                fixedJ.connectedBody = curJoint.attachedRigidbody;
+                curJoint.enabled=false;
             }
             //segments[segmentCount-1] = Instantiate(hinge, block.position, Quaternion.identity, this.transform);
             
             if(i == segmentCount - 1)
             {
-                curJoint.AddComponent<CircleCollider2D>();
-                circCollider = curJoint.GetComponent<CircleCollider2D>();
+                circCollider = curJoint.AddComponent<CircleCollider2D>();
                 circCollider.radius = 1;
                 circCollider.isTrigger = true;
                 
@@ -86,6 +87,7 @@ public class RopeManager : MonoBehaviour
         }
         line.enabled = true;
         line.positionCount = segmentCount;
+        Destroy(spring.gameObject);
 
     }
     
