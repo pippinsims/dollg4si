@@ -13,6 +13,9 @@ public class PlayerControl : MonoBehaviour
     public bool climb;
     bool jump;
 
+    private bool canGrab;
+    public bool grabbed;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -51,6 +54,10 @@ public class PlayerControl : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
         }
+        if(Keyboard.current.spaceKey.isPressed && canGrab)
+        {
+            grabbed=true;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D c)
@@ -70,6 +77,10 @@ public class PlayerControl : MonoBehaviour
             rb.gravityScale = 0f;
             rb.linearVelocity = new Vector2(0, 0);
         }
+        if (c.CompareTag("BoxRope"))
+        {
+            canGrab = true;   
+        }
     }
     void OnTriggerExit2D(Collider2D c)
     {
@@ -78,6 +89,11 @@ public class PlayerControl : MonoBehaviour
             climb = false;
             rb.linearVelocity = new Vector2(0, 0);
             rb.gravityScale = 1f;
+        }
+
+        if (c.CompareTag("BoxRope"))
+        {
+            canGrab=false;
         }
     }
 

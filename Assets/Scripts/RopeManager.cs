@@ -16,7 +16,7 @@ public class RopeManager : MonoBehaviour
     
     private GameObject temp;
     Transform tempTransform;
-    CircleCollider2D collider;
+    CircleCollider2D circCollider;
     
     
     private int segmentCount = 4;
@@ -24,7 +24,7 @@ public class RopeManager : MonoBehaviour
     
     public DistanceJoint2D dt;
 
-    
+    public PlayerControl playerControl;
 
     LineRenderer line; 
 
@@ -48,7 +48,7 @@ public class RopeManager : MonoBehaviour
         tempTransform.rotation = Quaternion.identity;
 
        
-        
+              
 
         for (int i = 0; i < segmentCount; i++)
         {
@@ -75,9 +75,10 @@ public class RopeManager : MonoBehaviour
             if(i == segmentCount - 1)
             {
                 curJoint.AddComponent<CircleCollider2D>();
-                collider = curJoint.GetComponent<CircleCollider2D>();
-                collider.radius = 1;
-                collider.isTrigger = true;
+                circCollider = curJoint.GetComponent<CircleCollider2D>();
+                circCollider.radius = 1;
+                circCollider.isTrigger = true;
+                
             }
         }
         line.enabled = true;
@@ -92,14 +93,18 @@ public class RopeManager : MonoBehaviour
         // segments[0].GetComponent<Rigidbody2D>().linearVelocity = new Vector2(-1, 2);
         // segments[segmentCount-1].GetComponent<Rigidbody2D>().linearVelocity = new Vector2(1, 2);
         segments[0].position = block.position;
-        //segments[segmentCount-1].position = player.position;
+        if (playerControl.grabbed)
+        {
+            segments[segmentCount-1].position = player.position;
+        }
+        
 
         for(int i = 0; i <segments.Length; i++)
         {
             line.SetPosition(i, segments[i].position);
         }
 
-
+        
         
     }
 
