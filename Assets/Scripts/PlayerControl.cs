@@ -9,7 +9,7 @@ public class PlayerControl : MonoBehaviour
     public float jumpForce;
     Rigidbody2D rb;
     Animator anim;
-    public Camera mainCam;
+    Camera mainCam;
     SpriteRenderer rend;
     FixedJoint2D fixedJ;
 
@@ -21,7 +21,6 @@ public class PlayerControl : MonoBehaviour
 
     GameObject head;
     SpriteRenderer headrend;
-    
 
     public Sprite ur,um,mr,mm,dr,dm;
     private Animator animator;
@@ -72,7 +71,7 @@ public class PlayerControl : MonoBehaviour
         }
 
         animator.SetBool("isWalking", MathF.Abs(rb.linearVelocity.x) + 1f > speed);
-        if(rb.linearVelocity.x != 0) rend.flipX = rb.linearVelocity.x < 0;
+        if(MathF.Abs(rb.linearVelocity.x) > 1f ) rend.flipX = rb.linearVelocity.x < 0;
         animator.SetBool("isFalling", rb.linearVelocity.y < -1.5f);
         animator.SetBool("isClimbing", climb);
         animator.speed = climb && (Keyboard.current.wKey.isPressed || Keyboard.current.sKey.isPressed) || !climb ? 1f : 0f;

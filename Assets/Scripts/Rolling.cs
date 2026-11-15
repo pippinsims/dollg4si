@@ -8,10 +8,11 @@ public class Rolling : MonoBehaviour
     private float speed;
     Rigidbody2D rb;
     SpriteRenderer rend;
-     public Transform player;
+    Transform player;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        player = GameObject.Find("Player").transform;
         rb = GetComponent<Rigidbody2D>();
         speed = Random.Range(3, 7);
     }
