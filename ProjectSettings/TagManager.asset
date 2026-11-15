@@ -12,6 +12,7 @@ TagManager:
   - Box
   - Boulder
   - Door
+  - Scene2Door
   layers:
   - Default
   - TransparentFX
