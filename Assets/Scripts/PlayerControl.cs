@@ -49,6 +49,15 @@ public class PlayerControl : MonoBehaviour
 
     private void Update()
     {
+
+        if (Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            if(SceneManager.GetActiveScene().name == "Win")
+                SceneManager.LoadScene("SampleScene");
+            if(SceneManager.GetActiveScene().name == "SampleScene")
+                SceneManager.LoadScene("LivingRoomLevel");
+        }
+
         if (Keyboard.current.spaceKey.wasPressedThisFrame && jump && !stunned)
         {
             rb.AddForce(Vector2.up * jumpForce);

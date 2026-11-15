@@ -5605,11 +5605,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8289786329447569437, guid: a134f8fb18e47cf4ea3f952ed78d1278, type: 3}
       propertyPath: segmentCount
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8289786329447569437, guid: a134f8fb18e47cf4ea3f952ed78d1278, type: 3}
       propertyPath: playerControl
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8328047021950338384, guid: a134f8fb18e47cf4ea3f952ed78d1278, type: 3}
+      propertyPath: m_AngularDamping
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 8641821936368058660, guid: a134f8fb18e47cf4ea3f952ed78d1278, type: 3}
       propertyPath: m_BodyType
