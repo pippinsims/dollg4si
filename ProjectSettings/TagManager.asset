@@ -8,6 +8,8 @@ TagManager:
   - Cover
   - Ground
   - Rope
+  - BoxRope
+  - Box
   layers:
   - Default
   - TransparentFX

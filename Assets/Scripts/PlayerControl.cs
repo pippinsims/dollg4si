@@ -10,6 +10,10 @@ public class PlayerControl : MonoBehaviour
     Rigidbody2D rb;
     Animator anim;
     public Camera mainCam;
+    SpriteRenderer rend;
+    FixedJoint2D fixedJ;
+
+    Rigidbody2D nearestRope;
 
     public bool climb;
     bool jump;
@@ -17,10 +21,13 @@ public class PlayerControl : MonoBehaviour
 
     GameObject head;
     SpriteRenderer headrend;
-    SpriteRenderer rend;
+    
 
     public Sprite ur,um,mr,mm,dr,dm;
     private Animator animator;
+
+    private bool canGrab;
+    public bool grabbed;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -32,11 +39,14 @@ public class PlayerControl : MonoBehaviour
         headrend = head.GetComponent<SpriteRenderer>();
         mainCam = GameObject.Find("Main Camera").GetComponent<Camera>();
         animator = transform.GetChild(0).GetComponent<Animator>();
+        fixedJ = GetComponent<FixedJoint2D>();
     }
 
     private void Update()
     {
         if (Keyboard.current.spaceKey.wasPressedThisFrame && jump && !stunned)
+        
+        if (Keyboard.current.spaceKey.wasPressedThisFrame && jump)
         {
             rb.AddForce(Vector2.up * jumpForce);
             jump = false;
@@ -67,6 +77,22 @@ public class PlayerControl : MonoBehaviour
         animator.SetBool("isClimbing", climb);
         animator.speed = climb && (Keyboard.current.wKey.isPressed || Keyboard.current.sKey.isPressed) || !climb ? 1f : 0f;
         stunned = animator.GetCurrentAnimatorStateInfo(0).IsName("GetUp");
+        if(Keyboard.current.eKey.wasPressedThisFrame)
+        {
+            if(grabbed)
+            {
+                grabbed = !grabbed;
+                fixedJ.enabled = false; 
+                fixedJ.connectedBody=null;     
+            }
+            else if(!grabbed && canGrab)
+            {
+                grabbed = !grabbed;
+                fixedJ.enabled=true;
+                fixedJ.connectedBody = nearestRope;
+            }
+
+        }
     }
 
     // Update is called once per frame
@@ -92,6 +118,7 @@ public class PlayerControl : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
         }
+        
     }
 
     private void OnCollisionEnter2D(Collision2D c)
@@ -102,6 +129,15 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+
+    private void OnTriggerEnter2D(Collider2D c)
+    {
+        if (c.CompareTag("BoxRope"))
+        {
+            canGrab= true;
+            nearestRope = c.attachedRigidbody;
+        }
+    }
     private void OnTriggerStay2D(Collider2D c)
     {
         if (c.CompareTag("Rope"))
@@ -110,6 +146,7 @@ public class PlayerControl : MonoBehaviour
             rb.gravityScale = 0f;
             rb.linearVelocity = new Vector2(0, 0);
         }
+        
     }
     void OnTriggerExit2D(Collider2D c)
     {
@@ -119,6 +156,15 @@ public class PlayerControl : MonoBehaviour
             rb.linearVelocity = new Vector2(0, 0);
             rb.gravityScale = 1f;
         }
+
+        if (c.CompareTag("BoxRope"))
+        {
+            canGrab=false;
+        }
     }
 
+    public static explicit operator PlayerControl(GameObject v)
+    {
+        throw new NotImplementedException();
+    }
 }
