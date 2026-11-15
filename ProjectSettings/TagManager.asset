@@ -11,6 +11,7 @@ TagManager:
   - BoxRope
   - Box
   - Boulder
+  - Door
   layers:
   - Default
   - TransparentFX
